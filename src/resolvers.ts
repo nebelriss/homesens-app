@@ -19,6 +19,29 @@ const resolvers: IResolvers = {
         name,
         locationType
       }
+    }),
+    addData: async(_, {
+      sensorId,
+      locationId,
+      temperature,
+      humidity,
+      barometricPressure
+    }) => await prisma.data.create({
+      data: {
+        sensor: {
+          connect: {
+            id: sensorId
+          }
+        },
+        location: {
+          connect: {
+            id: locationId
+          }
+        },
+        temperature,
+        humidity,
+        barometricPressure
+      }
     })
   }
 };

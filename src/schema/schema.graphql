@@ -7,6 +7,13 @@ type Query {
 type Mutation {
   addSensor(modelName: String): Sensor
   addLocation(name: String, locationType: String): Location
+  addData(
+    sensorId: Int!,
+    locationId: Int!,
+    temperature: Float,
+    humidity:Float,
+    barometricPressure: Int
+  ): Data
 }
 
 type Sensor {

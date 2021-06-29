@@ -1,0 +1,35 @@
+type Query {
+  sensors: [Sensor]!
+  locations: [Location]!
+  allData: [Data]!
+}
+
+type Mutation {
+  addSensor(modelName: String): Sensor
+  addLocation(name: String, locationType: String): Location
+}
+
+type Sensor {
+  id: ID!
+  createdAt: String!
+  updatedAt: String
+  modelName: String!
+}
+
+type Location {
+  id: ID!
+  createdAt: String!
+  updatedAt: String
+  name: String!
+  locationType: String
+}
+
+type Data {
+  id: ID!
+  createdAt: String!
+  sensor: Sensor
+  location: Location
+  temperature: Float
+  humidity: Float
+  barometricPressure: Int
+}

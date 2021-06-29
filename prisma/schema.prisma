@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum LocationType {
+  OUTDOOR
+  INDOOR
+}
+
+model Sensor {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  modelName String   @db.VarChar(255)
+  Data      Data[]
+}
+
+model Location {
+  id           Int          @id @default(autoincrement())
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  name         String       @db.VarChar(255)
+  locationType LocationType
+  Data         Data[]
+}
+
+model Data {
+  id                 String   @id @default(uuid())
+  createdAt          DateTime @default(now())
+  sensor             Sensor   @relation(fields: [sensorId], references: [id])
+  sensorId           Int
+  location           Location @relation(fields: [locationId], references: [id])
+  locationId         Int
+  temperature        Decimal? @db.Decimal(3, 1)
+  humidity           Decimal? @db.Decimal(4, 1)
+  barometricPressure Int?
+  illuminance        Int?
+  uva                Int?
+  uvb                Int?
+  uvIndex            Int?
+  airQuality         Int?
+}

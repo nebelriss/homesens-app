@@ -4,7 +4,6 @@ type Query {
   location(id: ID!): Location
   locations: [Location]!
   allData(sensorId: ID, locationId: ID): [Data]!
-  dataBySensor(sensorId: ID!): [Data]!
 }
 
 type Mutation {

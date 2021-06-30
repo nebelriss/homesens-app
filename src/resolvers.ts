@@ -13,7 +13,37 @@ const resolvers: IResolvers = {
       where: { id: Number(id) }
     }),
     locations: async () => await prisma.location.findMany(),
+    allData: async (_, { sensorId, locationId }) => {
+      let whereArgs = { where: {} };
+      if (sensorId) {
+        whereArgs.where = {
+          ...whereArgs.where,
+          sensor: {
+            id: Number(sensorId)
+          }
+        }
+      }
+      if (locationId) {
+        whereArgs.where = {
+          ...whereArgs.where,
+          location: {
+            id: Number(locationId)
+          }
+        }
+      }
+
+      return await prisma.data.findMany({
+        where: {
+          ...whereArgs.where
+        },
+        include: {
+          location: true,
+          sensor: true
+        }
+      })
+    },
   },
+
   Mutation: {
     addSensor: async (_, { modelName }) => await prisma.sensor.create({
       data: {

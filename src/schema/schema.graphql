@@ -3,7 +3,8 @@ type Query {
   sensors: [Sensor]!
   location(id: ID!): Location
   locations: [Location]!
-  allData: [Data]!
+  allData(sensorId: ID, locationId: ID): [Data]!
+  dataBySensor(sensorId: ID!): [Data]!
 }
 
 type Mutation {
@@ -43,4 +44,9 @@ type Data {
   temperature: Float
   humidity: Float
   barometricPressure: Int
+  illuminance: Int
+  uva: Int
+  uvb: Int
+  uvIndex: Int
+  airQuality: Int
 }

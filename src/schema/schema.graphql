@@ -8,7 +8,9 @@ type Query {
 
 type Mutation {
   addSensor(modelName: String): Sensor
+  updateSensor(id: ID!, modelName: String): Sensor
   addLocation(name: String, locationType: String): Location
+  updateLocation(id: ID!, name: String, locationType: String): Location
   addData(
     sensorId: Int!,
     locationId: Int!,

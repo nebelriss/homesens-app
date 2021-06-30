@@ -20,7 +20,18 @@ const resolvers: IResolvers = {
         modelName
       }
     }),
+    updateSensor: async (_, { id, modelName }) => await prisma.sensor.update({
+      where: { id: Number(id) },
+      data: { modelName }
+    }),
     addLocation: async(_, { name, locationType }) => await prisma.location.create({
+      data: {
+        name,
+        locationType
+      }
+    }),
+    updateLocation: async (_, { id, name, locationType }) => await prisma.location.update({
+      where: { id: Number(id) },
       data: {
         name,
         locationType

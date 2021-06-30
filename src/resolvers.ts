@@ -13,8 +13,10 @@ const resolvers: IResolvers = {
       where: { id: Number(id) }
     }),
     locations: async () => await prisma.location.findMany(),
-    allData: async (_, { sensorId, locationId }) => {
+    allData: async (_, { sensorId, locationId, from, to }) => {
       let whereArgs = { where: {} };
+      let fromArgs = {};
+
       if (sensorId) {
         whereArgs.where = {
           ...whereArgs.where,
@@ -23,6 +25,7 @@ const resolvers: IResolvers = {
           }
         }
       }
+
       if (locationId) {
         whereArgs.where = {
           ...whereArgs.where,
@@ -32,8 +35,18 @@ const resolvers: IResolvers = {
         }
       }
 
+      if (from) {
+        fromArgs = {
+          gte: new Date(from)
+        }
+      }
+
       return await prisma.data.findMany({
         where: {
+          createdAt: {
+            lte: new Date(to),
+            ...fromArgs
+          },
           ...whereArgs.where
         },
         include: {

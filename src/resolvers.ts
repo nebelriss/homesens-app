@@ -5,7 +5,13 @@ const prisma = new PrismaClient();
 
 const resolvers: IResolvers = {
   Query: {
+    sensor: async (_, { id }) => await prisma.sensor.findUnique({
+      where: { id: Number(id) }
+    }),
     sensors: async () => await prisma.sensor.findMany(),
+    location: async (_, { id }) => await prisma.location.findUnique({
+      where: { id: Number(id) }
+    }),
     locations: async () => await prisma.location.findMany(),
   },
   Mutation: {

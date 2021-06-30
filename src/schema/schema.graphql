@@ -1,5 +1,7 @@
 type Query {
+  sensor(id: ID!): Sensor
   sensors: [Sensor]!
+  location(id: ID!): Location
   locations: [Location]!
   allData: [Data]!
 }

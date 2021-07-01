@@ -1,7 +1,7 @@
 import { IResolvers } from "apollo-server-express";
 import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({});
 
 const resolvers: IResolvers = {
   Query: {
@@ -55,6 +55,23 @@ const resolvers: IResolvers = {
         }
       })
     },
+    latestDataByLocations: async () => {
+      // Inefficient by it works for this case
+      // get all locations
+      const locations = await prisma.location.findMany();
+
+      // get latest for every location
+      const data = [];
+      for (const location of locations) {
+        const res = await prisma.data.findFirst({
+          where: { location: { id: location.id} },
+          include: { location: true },
+          orderBy: { createdAt: 'desc'}
+        })
+        data.push(res)
+      }
+      return data;
+    }
   },
 
   Mutation: {

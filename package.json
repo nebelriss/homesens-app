@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node 'dist/server.js'",
-    "build": "tsc -p . && ncp src/schema dist/schema",
+    "build": "npx tsc -p . && npx ncp src/schema dist/schema",
     "dev": "node_modules/nodemon/bin/nodemon.js 'src/server.ts' --exec 'ts-node' src/server.ts -e ts,graphql",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate": "npx prisma migrate dev --name init"

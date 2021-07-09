@@ -8,7 +8,8 @@
     "build": "npx tsc -p . && npx ncp src/schema dist/schema",
     "dev": "node_modules/nodemon/bin/nodemon.js 'src/server.ts' --exec 'ts-node' src/server.ts -e ts,graphql",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "migrate": "npx prisma migrate dev --name init"
+    "migrate": "npx prisma migrate dev --name init",
+    "lint": "./node_modules/.bin/tslint -c tslint.json 'src/**/*.ts'"
   },
   "keywords": [],
   "author": "",
@@ -19,8 +20,11 @@
     "graphql-import-node": "0.0.4",
     "graphql-tools": "^7.0.5",
     "nodemon": "^2.0.7",
+    "prettier": "2.3.2",
     "prisma": "^2.25.0",
     "ts-node": "^10.0.0",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^4.3.4"
   },
   "dependencies": {

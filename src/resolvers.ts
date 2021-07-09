@@ -1,20 +1,26 @@
-import { IResolvers } from "apollo-server-express";
-import { PrismaClient } from "@prisma/client";
+import { IResolvers } from 'apollo-server-express';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient({});
 
 const resolvers: IResolvers = {
   Query: {
-    sensor: async (_, { id }) =>
+    sensor: async (_, { id }) => {
       await prisma.sensor.findUnique({
         where: { id: Number(id) },
-      }),
-    sensors: async () => await prisma.sensor.findMany(),
-    location: async (_, { id }) =>
+      });
+    },
+    sensors: async () => {
+      await prisma.sensor.findMany();
+    },
+    location: async (_, { id }) => {
       await prisma.location.findUnique({
         where: { id: Number(id) },
-      }),
-    locations: async () => await prisma.location.findMany(),
+      });
+    },
+    locations: async () => {
+      await prisma.location.findMany();
+    },
     allData: async (_, { sensorId, locationId, from, to, skip, take }) => {
       const whereArgs = { where: {} };
       const skipArgs = !skip ? {} : { skip };
@@ -50,7 +56,7 @@ const resolvers: IResolvers = {
         };
       }
 
-      return await prisma.data.findMany({
+      await prisma.data.findMany({
         ...skipArgs,
         ...takeArgs,
         where: {
@@ -69,11 +75,13 @@ const resolvers: IResolvers = {
 
       // get latest for every location
       const data = [];
+      // eslint-disable-next-line no-restricted-syntax
       for (const location of locations) {
+        // eslint-disable-next-line no-await-in-loop
         const res = await prisma.data.findFirst({
           where: { location: { id: location.id } },
           include: { location: true },
-          orderBy: { createdAt: "desc" },
+          orderBy: { createdAt: 'desc' },
         });
         data.push(res);
       }
@@ -82,36 +90,40 @@ const resolvers: IResolvers = {
   },
 
   Mutation: {
-    addSensor: async (_, { modelName }) =>
+    addSensor: async (_, { modelName }) => {
       await prisma.sensor.create({
         data: {
           modelName,
         },
-      }),
-    updateSensor: async (_, { id, modelName }) =>
+      });
+    },
+    updateSensor: async (_, { id, modelName }) => {
       await prisma.sensor.update({
         where: { id: Number(id) },
         data: { modelName },
-      }),
-    addLocation: async (_, { name, locationType }) =>
+      });
+    },
+    addLocation: async (_, { name, locationType }) => {
       await prisma.location.create({
         data: {
           name,
           locationType,
         },
-      }),
-    updateLocation: async (_, { id, name, locationType }) =>
+      });
+    },
+    updateLocation: async (_, { id, name, locationType }) => {
       await prisma.location.update({
         where: { id: Number(id) },
         data: {
           name,
           locationType,
         },
-      }),
+      });
+    },
     addData: async (
       _,
       { sensorId, locationId, temperature, humidity, barometricPressure },
-    ) =>
+    ) => {
       await prisma.data.create({
         data: {
           sensor: {
@@ -126,7 +138,8 @@ const resolvers: IResolvers = {
           humidity,
           barometricPressure,
         },
-      }),
+      });
+    },
   },
 };
 

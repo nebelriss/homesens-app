@@ -1,7 +1,7 @@
 import express from 'express';
-import { ApolloServer } from "apollo-server-express";
-import cors from "cors";
-import schema from "./schema";
+import { ApolloServer } from 'apollo-server-express';
+import cors from 'cors';
+import schema from './schema';
 
 const app = express();
 
@@ -12,9 +12,9 @@ const server = new ApolloServer({
 
 app.use(cors());
 
-server.applyMiddleware({app, path: '/graphql'});
+server.applyMiddleware({ app, path: '/graphql' });
 
-app.listen({port: 8000}, () => {
-  // tslint:disable-next-line:no-console
-  console.log("Apollo Server on http://localhost:8000/graphql");
+app.listen({ port: 8000 }, () => {
+  // eslint-disable-next-line no-console
+  console.log('Apollo Server on http://localhost:8000/graphql');
 });
